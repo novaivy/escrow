@@ -3,7 +3,7 @@ import SignatureCanvas from 'react-signature-canvas';
 import { submitSignature, getEscrow } from '../api';
 import PhoneFrame from './PhoneFrame';
 
-const BuyerSignature = ({ escrowId }) => {
+const BuyerSignature = ({ escrowId, onReleased }) => {
   const [escrow, setEscrow] = useState(null);
   const sigRef = useRef();
 
@@ -30,6 +30,9 @@ const BuyerSignature = ({ escrowId }) => {
       await submitSignature(escrowId, signatureData);
       alert('Signature submitted, escrow released!');
       fetchEscrow();
+      setTimeout(() => {
+        if (onReleased) onReleased();
+      }, 500);
     } catch {
       alert('Error submitting signature');
     }

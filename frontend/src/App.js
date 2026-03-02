@@ -60,7 +60,10 @@ function App() {
         {currentScreen === 'sign' && escrowId ? (
           <BuyerSignature
             escrowId={escrowId}
-            onReleased={() => { setEscrowStatus('RELEASED'); setCurrentScreen('released'); }}
+            onReleased={() => {
+              setEscrowStatus('RELEASED');
+              setCurrentScreen('released');
+            }}
           />
         ) : currentScreen === 'sign' && <div>Please create an escrow first</div>}
         {currentScreen === 'released' && escrowId ? <Released escrowId={escrowId} /> : currentScreen === 'released' && <div>Please create an escrow first</div>}
