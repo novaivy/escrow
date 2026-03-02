@@ -55,18 +55,15 @@ const BuyerSignature = ({ escrowId }) => {
       </div>
 
       <div className="ph-label">Sign below to confirm receipt</div>
-      <div className="sig-area">
+      <div className="sig-area" style={{position:'relative'}}>
         <SignatureCanvas
           ref={sigRef}
-          penColor="#2d6a4f"
-          canvasProps={{ width: 400, height: 120, className: 'sigCanvas' }}
+          penColor="#000000"
+          canvasProps={{ 
+            style:{width:'100%', height:'120px', display:'block'},
+            className: 'sigCanvas' 
+          }}
         />
-        {sigRef.current?.isEmpty() && (
-          <div className="sig-hint">
-            <div className="sig-icon">✍️</div>
-            <div>Draw your signature</div>
-          </div>
-        )}
       </div>
 
       <div style={{display:'flex',gap:'8px',marginBottom:'14px'}}>
