@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { markDelivered, getEscrow } from '../api';
 import PhoneFrame from './PhoneFrame';
 
-const MarkDelivered = ({ escrowId, onDelivered }) => {   // <-- add onDelivered prop
+const MarkDelivered = ({ escrowId, onDelivered, goBack }) => {
   const [escrow, setEscrow] = useState(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const MarkDelivered = ({ escrowId, onDelivered }) => {   // <-- add onDelivered 
       await markDelivered(escrowId);
       alert('Marked as delivered');
       fetchEscrow();
-      if (onDelivered) onDelivered();   // <-- switch to confirm screen
+      if (onDelivered) onDelivered();
     } catch {
       alert('Error marking as delivered');
     }
@@ -53,7 +53,7 @@ const MarkDelivered = ({ escrowId, onDelivered }) => {   // <-- add onDelivered 
       )}
       {escrow.status === 'DELIVERED' && <p>Already marked as delivered. Waiting for buyer confirmation.</p>}
       {escrow.status === 'RELEASED' && <p>Escrow already released.</p>}
-      <button className="ph-btn secondary" onClick={() => window.history.back()}>← Back</button>
+      <button className="ph-btn secondary" onClick={goBack}>← Back</button>
     </PhoneFrame>
   );
 };

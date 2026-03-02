@@ -92,6 +92,11 @@ body {
 }
 .tab-btn:hover { color: var(--text); background: var(--cream); }
 .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--cream); }
+.tab-btn.locked {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 
 /* screen container */
 .screen { display: none; animation: fadeIn .2s ease; padding-top: 32px; }
