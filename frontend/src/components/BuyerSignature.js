@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { submitSignature, getEscrow } from '../api';
 import PhoneFrame from './PhoneFrame';
@@ -7,18 +7,19 @@ const BuyerSignature = ({ escrowId, onReleased }) => {
   const [escrow, setEscrow] = useState(null);
   const sigRef = useRef();
 
- useEffect(() => {
-  if (escrowId) fetchEscrow();
-}, [escrowId, fetchEscrow]);
-
-  const fetchEscrow = async () => {
+  const fetchEscrow = useCallback(async () => {
     try {
       const { data } = await getEscrow(escrowId);
       setEscrow(data);
     } catch {
       alert('Failed to load escrow');
     }
-  };
+  }, [escrowId]);
+  
+ useEffect(() => {
+  if (escrowId) fetchEscrow();
+}, [escrowId, fetchEscrow]);
+
 
   const handleSign = async () => {
     if (sigRef.current.isEmpty()) {

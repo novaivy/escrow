@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { getEscrow } from '../api';
 import PhoneFrame from './PhoneFrame';
 
 const Released = ({ escrowId }) => {
   const [escrow, setEscrow] = useState(null);
 
-  useEffect(() => {
-  if (escrowId) fetchEscrow();
-}, [escrowId, fetchEscrow]);
-
-  const fetchEscrow = async () => {
+   const fetchEscrow =useCallback(async () => {
     try {
       const { data } = await getEscrow(escrowId);
       setEscrow(data);
     } catch {
       alert('Failed to fetch escrow');
     }
-  };
+  }, [escrowId]);
+  
+  useEffect(() => {
+  if (escrowId) fetchEscrow();
+}, [escrowId, fetchEscrow]);
+
 
   if (!escrow) return <PhoneFrame statusBarText="LOADING..."><div>Loading...</div></PhoneFrame>;
 

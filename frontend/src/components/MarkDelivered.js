@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { markDelivered, getEscrow } from '../api';
 import PhoneFrame from './PhoneFrame';
 
 const MarkDelivered = ({ escrowId, onDelivered, goBack }) => {
   const [escrow, setEscrow] = useState(null);
 
-  useEffect(() => {
-  if (escrowId) fetchEscrow();
-}, [escrowId, fetchEscrow]);
-
-  const fetchEscrow = async () => {
+   const fetchEscrow = useCallback(async () => {
     try {
       const { data } = await getEscrow(escrowId);
       setEscrow(data);
     } catch {
       alert('Failed to load escrow');
     }
-  };
+  }, [escrowId]);
+
+  useEffect(() => {
+  if (escrowId) fetchEscrow();
+}, [escrowId, fetchEscrow]);
+
 
   const handleDeliver = async () => {
     try {
