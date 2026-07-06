@@ -6,8 +6,8 @@ const MarkDelivered = ({ escrowId, onDelivered, goBack }) => {
   const [escrow, setEscrow] = useState(null);
 
   useEffect(() => {
-    if (escrowId) fetchEscrow();
-  }, [escrowId]);
+  if (escrowId) fetchEscrow();
+}, [escrowId, fetchEscrow]);
 
   const fetchEscrow = async () => {
     try {

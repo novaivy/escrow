@@ -7,9 +7,9 @@ const BuyerSignature = ({ escrowId, onReleased }) => {
   const [escrow, setEscrow] = useState(null);
   const sigRef = useRef();
 
-  useEffect(() => {
-    if (escrowId) fetchEscrow();
-  }, [escrowId]);
+ useEffect(() => {
+  if (escrowId) fetchEscrow();
+}, [escrowId, fetchEscrow]);
 
   const fetchEscrow = async () => {
     try {
