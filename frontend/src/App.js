@@ -6,11 +6,19 @@ import MarkDelivered from './components/MarkDelivered';
 import BuyerSignature from './components/BuyerSignature';
 import Released from './components/Released';
 import AllEscrows from './components/AllEscrows';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('create');
   const [escrowId, setEscrowId] = useState('');
   const [escrowStatus, setEscrowStatus] = useState('');
+
+  const [user, setUser] = useState(
+  JSON.parse(localStorage.getItem("user"))
+);
+
+const [showRegister, setShowRegister] = useState(false);
 
   const handleCreated = (id) => {
     setEscrowId(id);
@@ -36,8 +44,37 @@ function App() {
     }
   };
 
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+
+  setUser(null);
+  setCurrentScreen("create");
+  setEscrowId("");
+  setEscrowStatus("");
+};
+
+if (!user) {
+  return showRegister ? (
+    <Register
+      onRegistered={() => setShowRegister(false)}
+      goToLogin={() => setShowRegister(false)}
+    />
+  ) : (
+    <Login
+      onLogin={(loggedInUser) => setUser(loggedInUser)}
+      goToRegister={() => setShowRegister(true)}
+    />
+  );
+}
+
   return (
     <div className="page-wrap">
+
+      <div style={{ textAlign: "right", padding: "10px" }}>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+      
       <div className="tab-nav">
         <button className={`tab-btn ${currentScreen === 'create' ? 'active' : ''} ${!canAccess('create') ? 'locked' : ''}`} onClick={() => handleScreenChange('create')}>1 · Create Escrow</button>
         <button className={`tab-btn ${currentScreen === 'pending' ? 'active' : ''} ${!canAccess('pending') ? 'locked' : ''}`} onClick={() => handleScreenChange('pending')}>2 · Escrow Pending</button>

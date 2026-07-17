@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('../middleware/auth');
 const router = express.Router();
 const {
   createEscrow,
@@ -8,10 +9,10 @@ const {
   getAllEscrows
 } = require('../controllers/escrowController');
 
-router.post('/', createEscrow);
-router.put('/:id/deliver', markDelivered);
-router.put('/:id/sign', addSignature);
-router.get('/', getAllEscrows);
-router.get('/:id', getEscrow);
+router.post('/', auth, createEscrow);
+router.put('/:id/deliver', auth, markDelivered);
+router.put('/:id/sign', auth, addSignature);
+router.get('/', auth, getAllEscrows);
+router.get('/:id', auth, getEscrow);
 
 module.exports = router;
